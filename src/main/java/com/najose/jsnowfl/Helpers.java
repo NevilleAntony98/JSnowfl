@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 
-public class Helpers {
+class Helpers {
     public static String fetchURL(String urlString) {
         StringBuffer stringBuffer = new StringBuffer();
 
