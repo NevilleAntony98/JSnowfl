@@ -12,7 +12,7 @@ public class Snowfl {
     static final String BASENAME = "https://snowfl.com/";
     private String token;
     private static Pattern scriptNamePattern = Pattern.compile("(b.min.js\\?v=\\w+?)\"");
-    private static Pattern tokenPattern = Pattern.compile("\"(\\w+?)\",step,queryId");
+    private static Pattern tokenVarPattern = Pattern.compile("url: *\"/\" *\\+ *(\\w+?) *\\+ *\"/newsfeed\"");
 
     public SearchResult[] search(String searchString) {
         fetchToken();
@@ -28,6 +28,12 @@ public class Snowfl {
         String scriptName = matcher.group(1);
 
         String script = Helpers.fetchURL(BASENAME + scriptName);
+        matcher = tokenVarPattern.matcher(script);
+        matcher.find();
+        String tokenVar = matcher.group(1);
+        String tokenPatternString = String.format("%s *= *\"(\\w+?)\"", tokenVar);
+
+        Pattern tokenPattern = Pattern.compile(tokenPatternString);
         matcher = tokenPattern.matcher(script);
         matcher.find();
         token = matcher.group(1);
