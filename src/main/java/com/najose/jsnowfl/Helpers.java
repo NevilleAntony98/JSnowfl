@@ -11,14 +11,12 @@ class Helpers {
 
         try {
             URL url = new URL(urlString);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line);
+            try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()))) {
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    stringBuffer.append(line);
+                }
             }
-
-            bufferedReader.close();
         } catch (IOException exception) {
             System.out.print(exception);
         }
